@@ -1,0 +1,56 @@
+@BlackJackAPI_HostAddress = http://localhost:5166
+
+### Get all players
+GET {{BlackJackAPI_HostAddress}}/api/player
+Accept: application/json
+
+###
+
+### Get player by ID
+GET {{BlackJackAPI_HostAddress}}/api/player/1
+Accept: application/json
+
+###
+
+### Create a new player
+POST {{BlackJackAPI_HostAddress}}/api/player
+Content-Type: application/json
+
+{
+  "playerId": 0,
+  "userName": "newplayer",
+  "password": "securePass123",
+  "email": "newplayer@example.com",
+  "firstName": "New",
+  "lastName": "Player",
+  "credits": 100,
+  "inActive": null
+}
+
+###
+
+### Update a player
+PUT {{BlackJackAPI_HostAddress}}/api/player/1
+Content-Type: application/json
+
+{
+  "playerId": 1,
+  "userName": "updatedplayer",
+  "password": "newSecurePass456",
+  "email": "updatedplayer@example.com",
+  "firstName": "Updated",
+  "lastName": "Player",
+  "credits": 150,
+  "inActive": null
+}
+
+###
+
+### Delete a player (mark as inactive)
+DELETE {{BlackJackAPI_HostAddress}}/api/player/1
+Content-Type: application/json
+
+{
+  "playerId": 1,
+  "inActive": "2025-08-12T00:00:00Z"
+}
