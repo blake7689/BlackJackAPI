@@ -1,4 +1,4 @@
-@BlackJackAPI_HostAddress = http://localhost:5166
+@BlackJackAPI_HostAddress = http://localhost:5173
 
 ### Get all players
 GET {{BlackJackAPI_HostAddress}}/api/player

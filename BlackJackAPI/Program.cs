@@ -28,6 +28,13 @@ builder.Services.AddScoped<IPlayerRepository, PlayerRepository>();
 
 builder.Services.AddCors(options =>
 {
+    options.AddPolicy("AllowFrontend", policy =>
+    {
+        policy.WithOrigins("https://<your-staticwebapp-name>.azurestaticapps.net")
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+
     options.AddPolicy("AllowViteDev",
         policy =>
         {
@@ -77,8 +84,14 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-//app.UseCors("AllowReactApp");
-app.UseCors("AllowViteDev");
+if (app.Environment.IsDevelopment())
+{
+    app.UseCors("AllowViteDev");
+}
+else
+{
+    app.UseCors("AllowFrontend");
+}
 
 //app.UseHttpsRedirection();
 
