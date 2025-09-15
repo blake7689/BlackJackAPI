@@ -30,7 +30,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
     {
-        policy.WithOrigins("https://<your-staticwebapp-name>.azurestaticapps.net")
+        policy.WithOrigins("https://brave-beach-0e74c4603.1.azurestaticapps.net")
               .AllowAnyHeader()
               .AllowAnyMethod();
     });
