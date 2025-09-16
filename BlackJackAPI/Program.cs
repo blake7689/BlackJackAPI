@@ -10,7 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
-// Connection String //
+// Connection String ///
 var connectionString = builder.Configuration.GetConnectionString("BlackJackAPIDbContextConnection") ??
     throw new InvalidOperationException("Connection string 'BlackJackAPIDbContextConnection' not found");
 
