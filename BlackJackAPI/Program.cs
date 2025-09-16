@@ -77,7 +77,11 @@ var app = builder.Build();
 // Middleware pipeline configuration //
 app.UseMiddleware<ErrorHandlingMiddleware>();
 app.UseSwagger();
-app.UseSwaggerUI();
+app.UseSwaggerUI(c =>
+{
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "BlackJack API V1");
+    c.RoutePrefix = "swagger"; // ensures /swagger works
+});
 
 if (app.Environment.IsDevelopment())
 {

@@ -6,8 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BlackJackAPI.Controllers
 {
-    [Route("api/[Controller]")]
     [ApiController]
+    [Route("api/[Controller]")]
     public class PlayerController : ControllerBase
     {
         private readonly IPlayerRepository _playerRepository;
