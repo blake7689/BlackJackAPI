@@ -24,11 +24,11 @@ jobs:
         with:
           dotnet-version: '8.x'
 
-      - name: Build with dotnet
-        run: dotnet build --configuration Release
+      - name: Build project
+        run: dotnet build BlackJackAPI/BlackJackAPI.csproj --configuration Release
 
-      - name: Publish app
-        run: dotnet publish -c Release -o ./publish
+      - name: Publish project
+        run: dotnet publish BlackJackAPI/BlackJackAPI.csproj -c Release -o ./publish
 
       - name: Upload artifact for deployment
         uses: actions/upload-artifact@v4
