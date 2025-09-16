@@ -15,7 +15,15 @@ var connectionString = builder.Configuration.GetConnectionString("BlackJackAPIDb
     throw new InvalidOperationException("Connection string 'BlackJackAPIDbContextConnection' not found");
 
 // Db Context & Entity Framework //
-builder.Services.AddDbContext<BlackJackAPIDbContext>(options => options.UseSqlServer(connectionString));
+builder.Services.AddDbContext<BlackJackAPIDbContext>(options =>
+    options.UseSqlServer(connectionString, sqlOptions =>
+    {
+        sqlOptions.EnableRetryOnFailure(
+            maxRetryCount: 5,
+            maxRetryDelay: TimeSpan.FromSeconds(30),
+            errorNumbersToAdd: null);
+    }));
+
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()
     .AddEntityFrameworkStores<BlackJackAPIDbContext>().AddDefaultTokenProviders();
 
