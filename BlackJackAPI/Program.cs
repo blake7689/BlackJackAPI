@@ -93,12 +93,8 @@ else
     app.UseCors("AllowFrontend");
 }
 
-//app.UseHttpsRedirection();
-
+app.UseHttpsRedirection();
 app.UseAuthorization();
-
 app.MapControllers();
-
 DBInitializer.Seed(app);
-
 app.Run();
