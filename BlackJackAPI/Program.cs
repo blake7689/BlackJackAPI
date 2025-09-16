@@ -91,5 +91,14 @@ else
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
-DBInitializer.Seed(app);
+
+try
+{
+    DBInitializer.Seed(app);
+}
+catch (Exception ex)
+{
+    Console.WriteLine($"Database seeding failed: {ex.Message}");
+}
+
 app.Run();
