@@ -104,13 +104,13 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
 
-try
-{
-    DBInitializer.Seed(app);
-}
-catch (Exception ex)
-{
-    Console.WriteLine($"Database seeding failed: {ex.Message}");
-}
+//try
+//{
+//    DBInitializer.Seed(app);
+//}
+//catch (Exception ex)
+//{
+//    Console.WriteLine($"Database seeding failed: {ex.Message}");
+//}
 
 app.Run();
