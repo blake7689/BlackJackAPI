@@ -36,8 +36,6 @@ builder.Services.AddSwaggerGen();
 // Repositories
 builder.Services.AddScoped<IPlayerRepository, PlayerRepository>();
 
-Console.WriteLine("in api");
-
 // CORS
 builder.Services.AddCors(options =>
 {
