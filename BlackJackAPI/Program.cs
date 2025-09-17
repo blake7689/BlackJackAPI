@@ -43,6 +43,9 @@ builder.Services.AddCors(options =>
     {
         policy.WithOrigins(
                 "https://brave-beach-0e74c4603.1.azurestaticapps.net", // deployed frontend
+                "https://brave-beach-0e74c4603.1.azurestaticapps.net/api",
+                "https://brave-beach-0e74c4603.1.azurestaticapps.net/api/Player",
+                "https://brave-beach-0e74c4603.1.azurestaticapps.net/api/Player/login",
                 "http://localhost:5173" // dev frontend
             )
             .AllowAnyHeader()
