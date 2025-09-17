@@ -13,54 +13,43 @@ jobs:
   build:
     runs-on: ubuntu-latest
     permissions:
-      contents: read # Required for actions/checkout
+      contents: read #This is required for actions/checkout
 
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
       - name: Set up .NET Core
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '8.x'
 
-      - name: Build project
-        run: dotnet build BlackJackAPI/BlackJackAPI.csproj --configuration Release
+      - name: Build with dotnet
+        run: dotnet build --configuration Release
 
-      - name: Publish project
-        run: dotnet publish BlackJackAPI/BlackJackAPI.csproj -c Release -o ./publish
+      - name: dotnet publish
+        run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
 
-      - name: Upload artifact for deployment
+      - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
-          name: dotnet-app
-          path: ./publish
+          name: .net-app
+          path: ${{env.DOTNET_ROOT}}/myapp
 
   deploy:
     runs-on: ubuntu-latest
     needs: build
-    permissions:
-      id-token: write # Required for requesting JWT
-      contents: read  # Required for actions/checkout
-
+    
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
         with:
-          name: dotnet-app
-          path: ./publish
-
-      - name: Login to Azure
-        uses: azure/login@v2
-        with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_8C01175ACBFF4536AD0BDB1B50809FD7 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_5C4ABF1ACE4840C79EB9670EEF2E3F6C }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_059DE98A24F04E9CADB6B07FBD68619D }}
-
+          name: .net-app
+      
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
           app-name: 'blackjack-api-blake'
           slot-name: 'Production'
-          package: ./publish
+          package: .
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_E4F948A47A1447249F4CB48458A47358 }}
