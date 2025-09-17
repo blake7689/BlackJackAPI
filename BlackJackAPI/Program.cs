@@ -90,7 +90,7 @@ app.UseSwaggerUI(c =>
     c.SwaggerEndpoint("/swagger/v1/swagger.json", "BlackJack API V1");
     c.RoutePrefix = "swagger"; // ensures /swagger works
 });
-
+Console.WriteLine("in api");
 if (app.Environment.IsDevelopment())
 {
     app.UseCors("AllowViteDev");
