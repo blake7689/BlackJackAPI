@@ -44,7 +44,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowFrontend", policy =>
     {
         policy.WithOrigins(
-                "https://brave-beach-0e74c4603.1.azurestaticapps.net", // deployed frontend
+                "https://lively-sky-084c84203.2.azurestaticapps.net", // deployed frontend
                 "http://localhost:5173" // dev frontend
             )
             .AllowAnyHeader()
