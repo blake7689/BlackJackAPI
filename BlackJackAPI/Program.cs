@@ -42,12 +42,21 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowFrontend", policy =>
     {
         policy.WithOrigins(
-                "https://lively-sky-084c84203.2.azurestaticapps.net", // deployed frontend
-                "http://localhost:5173" // dev frontend
+                "https://lively-sky-084c84203.2.azurestaticapps.net"
             )
             .AllowAnyHeader()
             .AllowAnyMethod()
             .AllowCredentials();
+    });
+
+    options.AddPolicy("AllowViteDev", policy =>
+    {
+        policy.WithOrigins(
+            "http://localhost:5173"
+            )
+              .AllowAnyHeader()
+              .AllowAnyMethod()
+              .AllowCredentials();
     });
 });
 
@@ -83,28 +92,27 @@ var app = builder.Build();
 // Middleware pipeline
 app.UseMiddleware<ErrorHandlingMiddleware>();
 
-app.UseSwagger();
-app.UseSwaggerUI(c =>
+if (app.Environment.IsDevelopment())
 {
-    c.SwaggerEndpoint("/swagger/v1/swagger.json", "BlackJack API V1");
-    c.RoutePrefix = "swagger"; // allows /swagger
-});
-
-// Apply CORS globally
-app.UseCors("AllowFrontend");
+    app.UseSwagger();
+    app.UseSwaggerUI();
+    app.UseCors("AllowViteDev");
+}
+else
+{
+    app.UseSwagger();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "BlackJack API V1");
+        c.RoutePrefix = "swagger";
+    });
+    app.UseCors("AllowFrontend");
+}
 
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
 
-// Database seeding (optional)
-// try
-// {
-//     DBInitializer.Seed(app);
-// }
-// catch (Exception ex)
-// {
-//     Console.WriteLine($"Database seeding failed: {ex.Message}");
-// }
+// DBInitializer.Seed(app);
 
 app.Run();
