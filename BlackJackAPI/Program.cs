@@ -41,22 +41,18 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
     {
-        policy.WithOrigins(
-                "https://lively-sky-084c84203.2.azurestaticapps.net"
-            )
-            .AllowAnyHeader()
-            .AllowAnyMethod()
-            .AllowCredentials();
+        policy.WithOrigins("https://lively-sky-084c84203.2.azurestaticapps.net").AllowAnyHeader().AllowAnyMethod().AllowCredentials();
     });
 
     options.AddPolicy("AllowViteDev", policy =>
     {
         policy.WithOrigins(
-            "http://localhost:5173"
-            )
-              .AllowAnyHeader()
-              .AllowAnyMethod()
-              .AllowCredentials();
+            "http://localhost:5173", 
+            "https://localhost:5166" 
+        )
+        .AllowAnyHeader()
+        .AllowAnyMethod()
+        .AllowCredentials();
     });
 });
 
