@@ -49,7 +49,13 @@ builder.Services.AddCors(options =>
 
     options.AddPolicy("AllowViteDev", policy =>
     {
-        policy.WithOrigins("http://localhost:5173").AllowAnyHeader().AllowAnyMethod().AllowCredentials();
+        policy.WithOrigins(
+                "http://localhost:5173", 
+                "https://localhost:5173"
+            )
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials();
     });
 });
 
@@ -85,9 +91,6 @@ var app = builder.Build();
 // Middleware pipeline
 app.UseMiddleware<ErrorHandlingMiddleware>();
 
-// Redirect to HTTPS first so the following pipeline (incl. CORS) runs on the final URL
-app.UseHttpsRedirection();
-
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -105,9 +108,11 @@ else
     app.UseCors("AllowFrontend");
 }
 
-// Ensure preflight (OPTIONS) requests are handled and get CORS headers
-app.MapMethods("{*path}", new[] { "OPTIONS" }, () => Results.Ok())
-   .RequireCors(app.Environment.IsDevelopment() ? "AllowViteDev" : "AllowFrontend");
+app.UseHttpsRedirection();
+
+//// Ensure preflight (OPTIONS) requests are handled and get CORS headers
+//app.MapMethods("{*path}", new[] { "OPTIONS" }, () => Results.Ok())
+//   .RequireCors(app.Environment.IsDevelopment() ? "AllowViteDev" : "AllowFrontend");
 
 app.UseAuthorization();
 app.MapControllers();
